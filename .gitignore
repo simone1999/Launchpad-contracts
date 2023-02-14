@@ -8,7 +8,6 @@ build
 cache
 migrations
 migrations_
-typechain
 node_modules
 
 /abi/
@@ -17,5 +16,4 @@ node_modules
 /cache/
 /migrations/
 /migrations_/
-/typechain/
 /node_modules/

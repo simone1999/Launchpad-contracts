@@ -1,7 +1,6 @@
 
 .env
 
-abi
 bin
 artifacts
 build
@@ -10,7 +9,6 @@ migrations
 migrations_
 node_modules
 
-/abi/
 /artifacts/
 /build/
 /cache/

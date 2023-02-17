@@ -145,6 +145,25 @@ const _abi = [
     inputs: [
       {
         internalType: "address",
+        name: "token",
+        type: "address",
+      },
+    ],
+    name: "getTokenLocks",
+    outputs: [
+      {
+        internalType: "uint256[]",
+        name: "",
+        type: "uint256[]",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
         name: "user",
         type: "address",
       },
@@ -180,11 +199,6 @@ const _abi = [
       {
         internalType: "uint256",
         name: "duration",
-        type: "uint256",
-      },
-      {
-        internalType: "uint256",
-        name: "releases",
         type: "uint256",
       },
     ],

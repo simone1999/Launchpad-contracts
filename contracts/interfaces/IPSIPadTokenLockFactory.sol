@@ -9,7 +9,6 @@ interface IPSIPadTokenLockFactory {
         uint256 amount;
         uint256 start_time;
         uint256 duration;
-        uint256 releases;
         uint256 amountUnlocked;
     }
 
@@ -22,12 +21,13 @@ interface IPSIPadTokenLockFactory {
     function setStableCoinFee(uint256 _stable_coin_fee) external;
 
     function getUserLocks(address user) external view returns(uint256[] memory);
+    function getTokenLocks(address token) external view returns(uint256[] memory);
 
     event TokenLocked(uint256 indexed lockId, address indexed token, address indexed owner, uint256 amount);
     event TokenUnlocked(uint256 indexed lockId, address indexed token, uint256 amount);
     event OwnerChanged(uint256 indexed lockId, address indexed oldOwner, address indexed newOwner);
 
-    function lock(address token, uint256 amount, uint256 start_time, uint256 duration, uint256 releases) 
+    function lock(address token, uint256 amount, uint256 start_time, uint256 duration) 
         external payable returns(uint256);
     function changeOwner(uint256 lockId, address newOwner) external;
     function unlock(uint256 lockId, uint256 amount) external;

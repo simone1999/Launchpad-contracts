@@ -31,8 +31,9 @@ export interface IPSIPadTokenLockFactoryInterface
     "amountToUnlock(uint256)": FunctionFragment;
     "changeOwner(uint256,address)": FunctionFragment;
     "fee_aggregator()": FunctionFragment;
+    "getTokenLocks(address)": FunctionFragment;
     "getUserLocks(address)": FunctionFragment;
-    "lock(address,uint256,uint256,uint256,uint256)": FunctionFragment;
+    "lock(address,uint256,uint256,uint256)": FunctionFragment;
     "setFeeAggregator(address)": FunctionFragment;
     "setStableCoin(address)": FunctionFragment;
     "setStableCoinFee(uint256)": FunctionFragment;
@@ -56,12 +57,16 @@ export interface IPSIPadTokenLockFactoryInterface
     values?: undefined
   ): string;
   encodeFunctionData(
+    functionFragment: "getTokenLocks",
+    values: [string]
+  ): string;
+  encodeFunctionData(
     functionFragment: "getUserLocks",
     values: [string]
   ): string;
   encodeFunctionData(
     functionFragment: "lock",
-    values: [string, BigNumberish, BigNumberish, BigNumberish, BigNumberish]
+    values: [string, BigNumberish, BigNumberish, BigNumberish]
   ): string;
   encodeFunctionData(
     functionFragment: "setFeeAggregator",
@@ -106,6 +111,10 @@ export interface IPSIPadTokenLockFactoryInterface
   ): Result;
   decodeFunctionResult(
     functionFragment: "fee_aggregator",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "getTokenLocks",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -215,6 +224,11 @@ export interface IPSIPadTokenLockFactory extends BaseContract {
 
     fee_aggregator(overrides?: CallOverrides): Promise<[string]>;
 
+    getTokenLocks(
+      token: string,
+      overrides?: CallOverrides
+    ): Promise<[BigNumber[]]>;
+
     getUserLocks(
       user: string,
       overrides?: CallOverrides
@@ -225,7 +239,6 @@ export interface IPSIPadTokenLockFactory extends BaseContract {
       amount: BigNumberish,
       start_time: BigNumberish,
       duration: BigNumberish,
-      releases: BigNumberish,
       overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -278,6 +291,8 @@ export interface IPSIPadTokenLockFactory extends BaseContract {
 
   fee_aggregator(overrides?: CallOverrides): Promise<string>;
 
+  getTokenLocks(token: string, overrides?: CallOverrides): Promise<BigNumber[]>;
+
   getUserLocks(user: string, overrides?: CallOverrides): Promise<BigNumber[]>;
 
   lock(
@@ -285,7 +300,6 @@ export interface IPSIPadTokenLockFactory extends BaseContract {
     amount: BigNumberish,
     start_time: BigNumberish,
     duration: BigNumberish,
-    releases: BigNumberish,
     overrides?: PayableOverrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -338,6 +352,11 @@ export interface IPSIPadTokenLockFactory extends BaseContract {
 
     fee_aggregator(overrides?: CallOverrides): Promise<string>;
 
+    getTokenLocks(
+      token: string,
+      overrides?: CallOverrides
+    ): Promise<BigNumber[]>;
+
     getUserLocks(user: string, overrides?: CallOverrides): Promise<BigNumber[]>;
 
     lock(
@@ -345,7 +364,6 @@ export interface IPSIPadTokenLockFactory extends BaseContract {
       amount: BigNumberish,
       start_time: BigNumberish,
       duration: BigNumberish,
-      releases: BigNumberish,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
@@ -436,6 +454,8 @@ export interface IPSIPadTokenLockFactory extends BaseContract {
 
     fee_aggregator(overrides?: CallOverrides): Promise<BigNumber>;
 
+    getTokenLocks(token: string, overrides?: CallOverrides): Promise<BigNumber>;
+
     getUserLocks(user: string, overrides?: CallOverrides): Promise<BigNumber>;
 
     lock(
@@ -443,7 +463,6 @@ export interface IPSIPadTokenLockFactory extends BaseContract {
       amount: BigNumberish,
       start_time: BigNumberish,
       duration: BigNumberish,
-      releases: BigNumberish,
       overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -497,6 +516,11 @@ export interface IPSIPadTokenLockFactory extends BaseContract {
 
     fee_aggregator(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
+    getTokenLocks(
+      token: string,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
     getUserLocks(
       user: string,
       overrides?: CallOverrides
@@ -507,7 +531,6 @@ export interface IPSIPadTokenLockFactory extends BaseContract {
       amount: BigNumberish,
       start_time: BigNumberish,
       duration: BigNumberish,
-      releases: BigNumberish,
       overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 

@@ -31,9 +31,10 @@ export interface PSIPadTokenLockFactoryInterface
     "amountToUnlock(uint256)": FunctionFragment;
     "changeOwner(uint256,address)": FunctionFragment;
     "fee_aggregator()": FunctionFragment;
+    "getTokenLocks(address)": FunctionFragment;
     "getUserLocks(address)": FunctionFragment;
     "initialize(address,address,uint256)": FunctionFragment;
-    "lock(address,uint256,uint256,uint256,uint256)": FunctionFragment;
+    "lock(address,uint256,uint256,uint256)": FunctionFragment;
     "owner()": FunctionFragment;
     "renounceOwnership()": FunctionFragment;
     "setFeeAggregator(address)": FunctionFragment;
@@ -41,6 +42,7 @@ export interface PSIPadTokenLockFactoryInterface
     "setStableCoinFee(uint256)": FunctionFragment;
     "stable_coin()": FunctionFragment;
     "stable_coin_fee()": FunctionFragment;
+    "tokenToLocks(address,uint256)": FunctionFragment;
     "tokensLocked(uint256)": FunctionFragment;
     "transferOwnership(address)": FunctionFragment;
     "unlock(uint256,uint256)": FunctionFragment;
@@ -62,6 +64,10 @@ export interface PSIPadTokenLockFactoryInterface
     values?: undefined
   ): string;
   encodeFunctionData(
+    functionFragment: "getTokenLocks",
+    values: [string]
+  ): string;
+  encodeFunctionData(
     functionFragment: "getUserLocks",
     values: [string]
   ): string;
@@ -71,7 +77,7 @@ export interface PSIPadTokenLockFactoryInterface
   ): string;
   encodeFunctionData(
     functionFragment: "lock",
-    values: [string, BigNumberish, BigNumberish, BigNumberish, BigNumberish]
+    values: [string, BigNumberish, BigNumberish, BigNumberish]
   ): string;
   encodeFunctionData(functionFragment: "owner", values?: undefined): string;
   encodeFunctionData(
@@ -97,6 +103,10 @@ export interface PSIPadTokenLockFactoryInterface
   encodeFunctionData(
     functionFragment: "stable_coin_fee",
     values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "tokenToLocks",
+    values: [string, BigNumberish]
   ): string;
   encodeFunctionData(
     functionFragment: "tokensLocked",
@@ -136,6 +146,10 @@ export interface PSIPadTokenLockFactoryInterface
     data: BytesLike
   ): Result;
   decodeFunctionResult(
+    functionFragment: "getTokenLocks",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
     functionFragment: "getUserLocks",
     data: BytesLike
   ): Result;
@@ -164,6 +178,10 @@ export interface PSIPadTokenLockFactoryInterface
   ): Result;
   decodeFunctionResult(
     functionFragment: "stable_coin_fee",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "tokenToLocks",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -270,6 +288,11 @@ export interface PSIPadTokenLockFactory extends BaseContract {
 
     fee_aggregator(overrides?: CallOverrides): Promise<[string]>;
 
+    getTokenLocks(
+      token: string,
+      overrides?: CallOverrides
+    ): Promise<[BigNumber[]]>;
+
     getUserLocks(
       user: string,
       overrides?: CallOverrides
@@ -287,7 +310,6 @@ export interface PSIPadTokenLockFactory extends BaseContract {
       amount: BigNumberish,
       start_time: BigNumberish,
       duration: BigNumberish,
-      releases: BigNumberish,
       overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -316,25 +338,22 @@ export interface PSIPadTokenLockFactory extends BaseContract {
 
     stable_coin_fee(overrides?: CallOverrides): Promise<[BigNumber]>;
 
+    tokenToLocks(
+      arg0: string,
+      arg1: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<[BigNumber]>;
+
     tokensLocked(
       arg0: BigNumberish,
       overrides?: CallOverrides
     ): Promise<
-      [
-        string,
-        string,
-        BigNumber,
-        BigNumber,
-        BigNumber,
-        BigNumber,
-        BigNumber
-      ] & {
+      [string, string, BigNumber, BigNumber, BigNumber, BigNumber] & {
         owner: string;
         token: string;
         amount: BigNumber;
         start_time: BigNumber;
         duration: BigNumber;
-        releases: BigNumber;
         amountUnlocked: BigNumber;
       }
     >;
@@ -380,6 +399,8 @@ export interface PSIPadTokenLockFactory extends BaseContract {
 
   fee_aggregator(overrides?: CallOverrides): Promise<string>;
 
+  getTokenLocks(token: string, overrides?: CallOverrides): Promise<BigNumber[]>;
+
   getUserLocks(user: string, overrides?: CallOverrides): Promise<BigNumber[]>;
 
   initialize(
@@ -394,7 +415,6 @@ export interface PSIPadTokenLockFactory extends BaseContract {
     amount: BigNumberish,
     start_time: BigNumberish,
     duration: BigNumberish,
-    releases: BigNumberish,
     overrides?: PayableOverrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -423,17 +443,22 @@ export interface PSIPadTokenLockFactory extends BaseContract {
 
   stable_coin_fee(overrides?: CallOverrides): Promise<BigNumber>;
 
+  tokenToLocks(
+    arg0: string,
+    arg1: BigNumberish,
+    overrides?: CallOverrides
+  ): Promise<BigNumber>;
+
   tokensLocked(
     arg0: BigNumberish,
     overrides?: CallOverrides
   ): Promise<
-    [string, string, BigNumber, BigNumber, BigNumber, BigNumber, BigNumber] & {
+    [string, string, BigNumber, BigNumber, BigNumber, BigNumber] & {
       owner: string;
       token: string;
       amount: BigNumber;
       start_time: BigNumber;
       duration: BigNumber;
-      releases: BigNumber;
       amountUnlocked: BigNumber;
     }
   >;
@@ -479,6 +504,11 @@ export interface PSIPadTokenLockFactory extends BaseContract {
 
     fee_aggregator(overrides?: CallOverrides): Promise<string>;
 
+    getTokenLocks(
+      token: string,
+      overrides?: CallOverrides
+    ): Promise<BigNumber[]>;
+
     getUserLocks(user: string, overrides?: CallOverrides): Promise<BigNumber[]>;
 
     initialize(
@@ -493,7 +523,6 @@ export interface PSIPadTokenLockFactory extends BaseContract {
       amount: BigNumberish,
       start_time: BigNumberish,
       duration: BigNumberish,
-      releases: BigNumberish,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
@@ -520,25 +549,22 @@ export interface PSIPadTokenLockFactory extends BaseContract {
 
     stable_coin_fee(overrides?: CallOverrides): Promise<BigNumber>;
 
+    tokenToLocks(
+      arg0: string,
+      arg1: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
     tokensLocked(
       arg0: BigNumberish,
       overrides?: CallOverrides
     ): Promise<
-      [
-        string,
-        string,
-        BigNumber,
-        BigNumber,
-        BigNumber,
-        BigNumber,
-        BigNumber
-      ] & {
+      [string, string, BigNumber, BigNumber, BigNumber, BigNumber] & {
         owner: string;
         token: string;
         amount: BigNumber;
         start_time: BigNumber;
         duration: BigNumber;
-        releases: BigNumber;
         amountUnlocked: BigNumber;
       }
     >;
@@ -631,6 +657,8 @@ export interface PSIPadTokenLockFactory extends BaseContract {
 
     fee_aggregator(overrides?: CallOverrides): Promise<BigNumber>;
 
+    getTokenLocks(token: string, overrides?: CallOverrides): Promise<BigNumber>;
+
     getUserLocks(user: string, overrides?: CallOverrides): Promise<BigNumber>;
 
     initialize(
@@ -645,7 +673,6 @@ export interface PSIPadTokenLockFactory extends BaseContract {
       amount: BigNumberish,
       start_time: BigNumberish,
       duration: BigNumberish,
-      releases: BigNumberish,
       overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -673,6 +700,12 @@ export interface PSIPadTokenLockFactory extends BaseContract {
     stable_coin(overrides?: CallOverrides): Promise<BigNumber>;
 
     stable_coin_fee(overrides?: CallOverrides): Promise<BigNumber>;
+
+    tokenToLocks(
+      arg0: string,
+      arg1: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
 
     tokensLocked(
       arg0: BigNumberish,
@@ -721,6 +754,11 @@ export interface PSIPadTokenLockFactory extends BaseContract {
 
     fee_aggregator(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
+    getTokenLocks(
+      token: string,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
     getUserLocks(
       user: string,
       overrides?: CallOverrides
@@ -738,7 +776,6 @@ export interface PSIPadTokenLockFactory extends BaseContract {
       amount: BigNumberish,
       start_time: BigNumberish,
       duration: BigNumberish,
-      releases: BigNumberish,
       overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
@@ -766,6 +803,12 @@ export interface PSIPadTokenLockFactory extends BaseContract {
     stable_coin(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     stable_coin_fee(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    tokenToLocks(
+      arg0: string,
+      arg1: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
 
     tokensLocked(
       arg0: BigNumberish,

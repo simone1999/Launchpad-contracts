@@ -58,6 +58,10 @@ contract PSIPadTokenLockFactory is IPSIPadTokenLockFactory, Initializable, Ownab
         stable_coin_fee = _stable_coin_fee;
     }
 
+    function getTokensLockedCount() external view override returns (uint256) {
+        return tokensLocked.length;
+    }
+
     function setFeeAggregator(address _fee_aggregator) external override onlyOwner {
         fee_aggregator = _fee_aggregator;
     }

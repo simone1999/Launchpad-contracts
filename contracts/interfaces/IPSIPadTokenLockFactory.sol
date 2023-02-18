@@ -12,6 +12,7 @@ interface IPSIPadTokenLockFactory {
         uint256 amountUnlocked;
     }
 
+    function getTokensLockedCount() external view returns(uint256);
     function fee_aggregator() external view returns(address);
     function stable_coin() external  view returns(address);
     function stable_coin_fee() external view returns(uint256);

@@ -32,6 +32,7 @@ export interface PSIPadTokenLockFactoryInterface
     "changeOwner(uint256,address)": FunctionFragment;
     "fee_aggregator()": FunctionFragment;
     "getTokenLocks(address)": FunctionFragment;
+    "getTokensLockedCount()": FunctionFragment;
     "getUserLocks(address)": FunctionFragment;
     "initialize(address,address,uint256)": FunctionFragment;
     "lock(address,uint256,uint256,uint256)": FunctionFragment;
@@ -66,6 +67,10 @@ export interface PSIPadTokenLockFactoryInterface
   encodeFunctionData(
     functionFragment: "getTokenLocks",
     values: [string]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "getTokensLockedCount",
+    values?: undefined
   ): string;
   encodeFunctionData(
     functionFragment: "getUserLocks",
@@ -147,6 +152,10 @@ export interface PSIPadTokenLockFactoryInterface
   ): Result;
   decodeFunctionResult(
     functionFragment: "getTokenLocks",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "getTokensLockedCount",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -293,6 +302,8 @@ export interface PSIPadTokenLockFactory extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[BigNumber[]]>;
 
+    getTokensLockedCount(overrides?: CallOverrides): Promise<[BigNumber]>;
+
     getUserLocks(
       user: string,
       overrides?: CallOverrides
@@ -401,6 +412,8 @@ export interface PSIPadTokenLockFactory extends BaseContract {
 
   getTokenLocks(token: string, overrides?: CallOverrides): Promise<BigNumber[]>;
 
+  getTokensLockedCount(overrides?: CallOverrides): Promise<BigNumber>;
+
   getUserLocks(user: string, overrides?: CallOverrides): Promise<BigNumber[]>;
 
   initialize(
@@ -508,6 +521,8 @@ export interface PSIPadTokenLockFactory extends BaseContract {
       token: string,
       overrides?: CallOverrides
     ): Promise<BigNumber[]>;
+
+    getTokensLockedCount(overrides?: CallOverrides): Promise<BigNumber>;
 
     getUserLocks(user: string, overrides?: CallOverrides): Promise<BigNumber[]>;
 
@@ -659,6 +674,8 @@ export interface PSIPadTokenLockFactory extends BaseContract {
 
     getTokenLocks(token: string, overrides?: CallOverrides): Promise<BigNumber>;
 
+    getTokensLockedCount(overrides?: CallOverrides): Promise<BigNumber>;
+
     getUserLocks(user: string, overrides?: CallOverrides): Promise<BigNumber>;
 
     initialize(
@@ -756,6 +773,10 @@ export interface PSIPadTokenLockFactory extends BaseContract {
 
     getTokenLocks(
       token: string,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    getTokensLockedCount(
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 

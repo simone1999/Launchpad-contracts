@@ -1,21 +1,17 @@
 
 .env
 
-abi
 bin
 artifacts
 build
 cache
 migrations
 migrations_
-typechain
 node_modules
 
-/abi/
 /artifacts/
 /build/
 /cache/
 /migrations/
 /migrations_/
-/typechain/
 /node_modules/

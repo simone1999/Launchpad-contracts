@@ -68,8 +68,7 @@
     "precompile": "yarn clean",
     "compile": "hardhat compile",
     "pretest": "yarn compile",
-    "test": "hardhat test",
-    "prepublishOnly": "yarn test"
+    "test": "hardhat test"
   },
   "resolutions": {
     "solc": "0.8.6"
